@@ -62,6 +62,9 @@ export function Home() {
   const [showVideo, setShowVideo] = useState(false);
   const [sessionType, setSessionType] = useState<"demo" | "full">("demo");
   const [form, setForm] = useState({ name: "", email: "", phone: "", course: "" });
+  const [hoveredViewPrograms, setHoveredViewPrograms] = useState(false);
+  const [hoveredAllPrograms, setHoveredAllPrograms] = useState(false);
+  const [hoveredCtaPrograms, setHoveredCtaPrograms] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,13 +82,13 @@ export function Home() {
         className="flex items-center"
       >
         {/* Decorative shapes */}
-        <div style={{ position: "absolute", top: "-100px", right: "-100px", width: "600px", height: "600px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,122,0,0.12) 0%, transparent 70%)" }} />
-        <div style={{ position: "absolute", bottom: "-80px", left: "-80px", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)" }} />
+        <div style={{ position: "absolute", top: "-100px", right: "-100px", width: "600px", height: "600px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,122,0,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "-80px", left: "-80px", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)", pointerEvents: "none" }} />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             {/* Left */}
-            <div>
+            <div style={{ position: "relative", zIndex: 2 }}>
               <div
                 style={{ display: "inline-flex", alignItems: "center", gap: "8px", backgroundColor: "rgba(255,122,0,0.15)", border: "1px solid rgba(255,122,0,0.3)", borderRadius: "100px", padding: "6px 16px", marginBottom: "28px" }}
               >
@@ -110,18 +113,32 @@ export function Home() {
                 Expert-led English training for students, professionals, and job seekers. Speak fluently, present confidently, and achieve the career you deserve.
               </p>
 
-              <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "40px" }}>
+              <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "40px", position: "relative", zIndex: 2 }}>
                 <button
                   onClick={openModal}
-                  style={{ backgroundColor: "#FF7A00", fontFamily: "'Poppins',sans-serif", fontWeight: 600, borderRadius: "12px", boxShadow: "0 8px 25px rgba(255,122,0,0.4)", display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 28px", color: "#ffffff", border: "none", cursor: "pointer", transition: "all 0.2s" }}
+                  style={{ backgroundColor: "#FF7A00", fontFamily: "'Poppins',sans-serif", fontWeight: 600, borderRadius: "12px", boxShadow: "0 8px 25px rgba(255,122,0,0.4)", display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 28px", color: "#ffffff", border: "none", cursor: "pointer", transition: "all 0.2s", position: "relative", zIndex: 2 }}
                   className="hover:opacity-90 hover:scale-105"
                 >
                   Book Free Demo <ArrowRight style={{ width: "18px", height: "18px" }} />
                 </button>
                 <Link
                   to="/services"
-                  style={{ border: "2px solid rgba(255,255,255,0.4)", color: "#ffffff", fontFamily: "'Poppins',sans-serif", fontWeight: 600, borderRadius: "12px", padding: "14px 28px", textDecoration: "none", transition: "all 0.2s" }}
-                  className="hover:bg-white hover:text-blue-900"
+                  onMouseEnter={() => setHoveredViewPrograms(true)}
+                  onMouseLeave={() => setHoveredViewPrograms(false)}
+                  style={{
+                    border: "2px solid rgba(255,255,255,0.6)",
+                    color: hoveredViewPrograms ? "#FF7A00" : "#ffffff",
+                    backgroundColor: hoveredViewPrograms ? "#ffffff" : "transparent",
+                    fontFamily: "'Poppins',sans-serif",
+                    fontWeight: 700,
+                    borderRadius: "12px",
+                    padding: "14px 28px",
+                    textDecoration: "none",
+                    transition: "all 0.2s",
+                    display: "inline-block",
+                    position: "relative",
+                    zIndex: 2,
+                  }}
                 >
                   View Programs
                 </Link>
@@ -354,8 +371,22 @@ export function Home() {
           <div style={{ textAlign: "center", marginTop: "40px" }}>
             <Link
               to="/services"
-              style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontFamily: "'Poppins',sans-serif", fontWeight: 600, borderRadius: "12px", padding: "13px 28px", textDecoration: "none" }}
-              className="border-2 border-[#0B3C5D] text-[#0B3C5D] hover:bg-[#0B3C5D] hover:text-white transition-all duration-200"
+              onMouseEnter={() => setHoveredAllPrograms(true)}
+              onMouseLeave={() => setHoveredAllPrograms(false)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                fontFamily: "'Poppins',sans-serif",
+                fontWeight: 600,
+                borderRadius: "12px",
+                padding: "13px 28px",
+                textDecoration: "none",
+                border: "2px solid #0B3C5D",
+                color: hoveredAllPrograms ? "#ffffff" : "#0B3C5D",
+                backgroundColor: hoveredAllPrograms ? "#0B3C5D" : "transparent",
+                transition: "all 0.2s",
+              }}
             >
               View All Programs <ArrowRight style={{ width: "16px", height: "16px" }} />
             </Link>
@@ -738,8 +769,20 @@ export function Home() {
             </button>
             <Link
               to="/services"
-              style={{ backgroundColor: "rgba(255,255,255,0.2)", color: "#ffffff", fontFamily: "'Poppins',sans-serif", fontWeight: 600, borderRadius: "12px", padding: "16px 28px", textDecoration: "none", border: "2px solid rgba(255,255,255,0.5)" }}
-              className="hover:bg-white hover:text-orange-600 transition-all"
+              onMouseEnter={() => setHoveredCtaPrograms(true)}
+              onMouseLeave={() => setHoveredCtaPrograms(false)}
+              style={{
+                backgroundColor: hoveredCtaPrograms ? "#ffffff" : "rgba(255,255,255,0.2)",
+                color: hoveredCtaPrograms ? "#EA6500" : "#ffffff",
+                fontFamily: "'Poppins',sans-serif",
+                fontWeight: 600,
+                borderRadius: "12px",
+                padding: "16px 28px",
+                textDecoration: "none",
+                border: "2px solid rgba(255,255,255,0.5)",
+                transition: "all 0.2s",
+                display: "inline-block",
+              }}
             >
               View Programs
             </Link>
